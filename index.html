@@ -4,8 +4,196 @@
 	<link href="style.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
-	<div>
-		Hello World.
+	<div class="outer">
+		<div id="content">
+		</div>
 	</div>
 </body>
 </html>
+
+
+<script>
+	var content = document.getElementById("content");
+	var wYA;
+	var reason;
+	var reasonIndex;
+	//content.style.opacity = 0;
+	var fadeInRate = .04;
+	var fadeOutRate = .05;
+	var visibleTime = 2000;
+	var invisibleTime = 1000;
+
+	var messages = 
+	[
+		"Hi Emily!", 
+		"Amanda and Drew here.", 
+		"We heard it's your <span class='red'>b</span><span class='green'>i</span><span class='yellow'>r</span><span class='blue'>"
+		+"t</span><span class='orange'>h</span><span class='pink'>d</span>"
+		+"<span class='aqua'>a</span><span class='purple'>y</span>!",
+		"And we had some stuff we wanted to tell you.",
+		"We'd rather tell you in person.",
+		"But our friendship has been mostly online.",
+		"So we thought it would be fitting to tell you via the internet.",
+		"We've been thinking a lot about how great of a friend you are.",
+		"And we wanted to give you something",
+		"that you could look at if you're ever feeling less than great about yourself.",
+		"So without further ado...",
+		"Amanda and Drew present<br/><span id='whyYoureAwesome'>24 reasons why Emily is awesome</span>",
+		"Emily is awesome because...<br/><span id='reason'></span>",
+	];
+
+	var whyYoureAwesomeIndex = messages.length - 2;
+	var reasonMessageIndex = messages.length - 1;
+
+	var reasons = 
+	[
+		"Reason #1: She has great nails.",
+		"Reason #2: She makes Amanda laugh in boring classes.",
+		"Reason #3: She has a great sense of humor.",
+		"Reason #4: She does a great job modding /r/MensLib.",
+		"Reason #5: She does a great job modding /r/FemsLib.",
+		"Reason #6: She's a great listener.",
+		"Reason #7: She's super fashionable.",
+		"Reason #8: She's a geniunely good person.",
+		"Reason #9: She's great at explaining ideas that are hard to articulate.",
+		"Reason #10: She has a refreshingly naunced perspective on gender issues.",
+		"Reason #11: She's incredibly patient when dealing with shits on reddit.",
+		"Reason #12: She's an engineer who doesn't judge non-STEM folks.",
+		"Reason #13: She's humble and incredibly self-aware.",
+		"Reason #14: She has crazy good visual spacial skills.",
+		"Reason #15: She's incredibly empathetic, even with people who don't treat her well.",
+		"Reason #16: She's always there for us.",
+		"Reason #17: She has wisdom beyond her years.",
+		"Reason #18: She's insanely intelligent.",
+		"Reason #19: She's a hard worker.",
+		"Reason #20: She lets us watch her play <i>The Witness</i>.",
+		"Reason #21: She appreciates the beauty of cute puppies and kitties.",
+		"Reason #22: She'll talk about anything and everything.",
+		"Reason #23: She's open about her insecurities.",
+		"Reason #24: She makes us feel good about ourselves.",
+	];
+	ShuffleReasons();
+	var index = 0;
+	content.innerHTML = messages[index];
+
+	function fadeOutMessage()
+	{
+		if (content.style.opacity <= 0)
+		{
+			index++;
+			if (index < messages.length)
+			{
+				content.innerHTML = messages[index];
+				if (index === whyYoureAwesomeIndex) //If if it's "why you're awesome" message
+				{
+					setTimeout(function(){fadeInWhyYoureAwesome();}, invisibleTime);
+				}
+				else if (index === reasonMessageIndex)
+				{
+					reason = document.getElementById("reason");
+					reason.style.opacity = 0;
+					reasonIndex = 0;
+					var reasonText = reasons[reasonIndex];
+					reason.innerHTML = reasonText;
+					setTimeout(function(){fadeInMessage();}, invisibleTime);
+				}
+				else
+				{
+					setTimeout(function(){fadeInMessage();}, invisibleTime);
+				}
+			}
+			return;
+		}
+		//Fade the message
+		content.style.opacity = Number(content.style.opacity) - fadeOutRate;
+		setTimeout(function(){fadeOutMessage();}, 50);
+	}
+
+	function fadeInMessage()
+	{
+		if (content.style.opacity >= 1)
+		{
+			if (index === reasonMessageIndex)
+			{
+				setTimeout(function(){fadeInReason();}, invisibleTime);	
+				return;
+			}
+			setTimeout(function(){fadeOutMessage();}, visibleTime);
+			return;
+		}
+		content.style.opacity = Number(content.style.opacity) + fadeInRate;
+		setTimeout(function(){fadeInMessage();}, 50);
+	}
+
+	function fadeInWhyYoureAwesome()
+	{
+		if (content.style.opacity >= 1)
+		{
+			wYA = document.getElementById("whyYoureAwesome");
+			wYA.style.opacity = 0;
+			setTimeout(function(){fadeInWhyYoureAwesomeSecondPart();}, invisibleTime);
+			return;
+		}
+		content.style.opacity = Number(content.style.opacity) + fadeInRate;
+		setTimeout(function(){fadeInWhyYoureAwesome();}, 50);
+	}
+
+	function fadeInWhyYoureAwesomeSecondPart()
+	{
+		if (wYA.style.opacity >= 1)
+		{
+			setTimeout(function(){fadeOutMessage();}, visibleTime);
+			return;
+		}
+		wYA.style.opacity = Number(wYA.style.opacity) + fadeInRate;
+		setTimeout(function(){fadeInWhyYoureAwesomeSecondPart();}, 50);
+	}
+
+	function fadeInReason()
+	{
+		if (reason.style.opacity >= 1)
+		{
+			setTimeout(function(){fadeOutReason();}, visibleTime);
+			return;
+		}
+		reason.style.opacity = Number(reason.style.opacity) + fadeInRate;
+		setTimeout(function(){fadeInReason();}, 50);
+	}
+
+	function fadeOutReason()
+	{
+		if (reason.style.opacity <= 0)
+		{
+			reasonIndex = reasonIndex >= reasons.length - 1 ? 0 : reasonIndex + 1;
+			reason.innerHTML = reasons[reasonIndex];
+			setTimeout(function(){fadeInReason();}, invisibleTime);
+			return;
+		}
+		reason.style.opacity = Number(reason.style.opacity) - fadeOutRate;
+		setTimeout(function(){fadeOutReason();}, 50);
+	}
+
+	function ShuffleReasons()
+	{
+		var newArray = [];
+		while (reasons.length > 0)
+		{
+			var randIndex = Math.floor(Math.random() * reasons.length);
+			var randReason = reasons[randIndex];
+			newArray.push(randReason);
+			reasons.splice(randIndex, 1);
+		}
+		reasons = newArray;
+	}
+
+
+	setTimeout(function(){fadeInMessage(messages[0]);}, invisibleTime);
+</script>
+
+
+
+
+
+
+
+

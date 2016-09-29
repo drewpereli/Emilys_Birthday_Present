@@ -1,7 +1,80 @@
+body
+{
+	padding: 0px;
+	margin: 0px;
+}
+
+.outer {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
 
 
-div
+
+#content {
+    margin-left: 5%;
+    margin-right: 5%; 
+    width: 90%;
+    font-size: 36pt;
+	font-family: Verdana, Geneva, sans-serif;
+	opacity: 0;
+	position: absolute;
+	text-align: center;
+	top: 40%;
+}
+
+#whyYoureAwesome, #reason
+{
+	opacity: 0;
+}
+
+
+.red
+{
+	color: red;
+}
+.green
 {
 	color: green;
-	background-color: blue;
 }
+.blue
+{
+	color: blue;
+}
+.yellow
+{
+	color: gold;
+}
+.organe
+{
+	color: orange;
+}
+.purple
+{
+	color: purple;
+}
+.pink
+{
+	color: pink;
+}
+.aqua
+{
+	color: aqua;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
